@@ -1,27 +1,68 @@
-# React + TypeScript + Vite
+## Overview
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Lego is Lightweight React State Management Library that help you build your React applications with modular and scalable state management using Lego, just like assembling Lego blocks.
 
-Currently, two official plugins are available:
+### Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Lego Primtive:** Lego is the minimal unit of state that can be created and accessed independently. Legos are composable, allowing you to build complex state structures while keeping them separate and manageable.
+- **No Providers:** Legos can be created and accessed within the component tree without relying on a traditional context provider setup.
+- **Reactivity:** Lego leverages React's reactivity model to automatically re-render components that depend on legos when their state changes. This helps keep your UI in sync with the underlying state.
+- **Asynchronous Updates:** Lego supports asynchronous state updates, making it suitable for scenarios where state changes involve data fetching, API calls, or other async operations.
+- **Efficient Re-Renders:** Only the components that directly use a specific lego are re-rendered when that lego's state changes.
+- **Derived State:** Lego allows you to create derived legos, which are calculated based on the values of other legos. This is useful for avoiding unnecessary recomputation and keeping your state logic organized.
 
-## Expanding the ESLint configuration
+### Examples
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+#### Simple Lego State
 
-- Configure the top-level `parserOptions` property like this:
+    import { lego, useLego } from  "./lego";
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+    const  legoCounter = lego(0);
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+    function  Counter() {
+        const [count, setCount] = useLego(legoCounter);
+        return (
+    		<div>
+    			<button  onClick={() => setCount(count + 1)}>count</button>
+    			<p>Count: {count}</p>
+    		</div>
+    	)
+    }
+
+#### Derived Lego State
+
+    import { lego, useLego, useLegoValue } from  "./lego";
+
+    const  legoCounter = lego(0);
+    const  legoDouble  = lego((get) =>  get(legoCounter) *  2);
+
+    function  Counter() {
+        const [count, setCount] = useLego(legoCounter);
+        const  double = useLegoValue(legoDouble);
+        return (
+    		<div>
+    			<button  onClick={() => setCount(count + 1)}>count</button>
+    			<p>count: { count }</p>
+    			<p>double: { double }</p>
+    		</div>
+    	)
+    }
+
+#### Async Legos
+
+    import { lego, useLego } from  "./lego";
+
+    const  legoData  =  lego(() =>
+    	fetch("https://jsonplaceholder.typicode.com/todos/1").then((res) =>
+    		res.json()
+    	)
+    )
+
+    function  Counter() {
+        const data  =  useLegoValue(legoData);
+        return (
+    		<div>
+    			<p>Count: {JSON.stringify(data)}</p>
+    		</div>
+    	)
+    }
