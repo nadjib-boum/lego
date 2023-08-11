@@ -2,6 +2,8 @@
 
 Lego is Lightweight React State Management Library that help you build your React applications with modular and scalable state management using Lego, just like assembling Lego blocks.
 
+![enter image description here](https://img.icons8.com/?size=200&id=38643&format=png)
+
 ### Features
 
 - **Lego Primtive:** Lego is the minimal unit of state that can be created and accessed independently. Legos are composable, allowing you to build complex state structures while keeping them separate and manageable.
