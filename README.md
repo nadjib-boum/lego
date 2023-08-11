@@ -68,3 +68,10 @@ Lego is Lightweight React State Management Library that help you build your Reac
     		</div>
     	)
     }
+
+### How does it work
+
+This library is more simple than it seems.
+It relies on the useSyncExternalStore hook from React API, which follow a similar design patterns to Observer (Subscribe/Publish) to track React State Changes.
+
+Read More on [this article](https://react.dev/reference/react/useSyncExternalStore).
