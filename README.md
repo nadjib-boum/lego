@@ -52,7 +52,7 @@ Lego is Lightweight React State Management Library that help you build your Reac
 
 #### Async Legos
 
-    import { lego, useLego } from  "./lego";
+    import { lego, useLegoValue } from  "./lego";
 
     const  legoData  =  lego(() =>
     	fetch("https://jsonplaceholder.typicode.com/todos/1").then((res) =>
